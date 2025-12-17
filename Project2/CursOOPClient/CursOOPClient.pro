@@ -12,14 +12,14 @@ SOURCES += \
     ../communicator/common.cpp \
     ../communicator/communicator.cpp \
     application.cpp \
-    interface.cpp \
+    controllerinterface.cpp \
     main.cpp
 
 HEADERS += \
     ../communicator/common.h \
     ../communicator/communicator.h \
     application.h \
-    interface.h
+    controllerinterface.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

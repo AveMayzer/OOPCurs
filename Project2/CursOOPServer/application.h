@@ -1,21 +1,22 @@
 #ifndef SERVER_APPLICATION_H
 #define SERVER_APPLICATION_H
 
-#include <QCoreApplication>
+#include <QApplication>
 #include "../communicator/communicator.h"
 #include "../communicator/common.h"
 #include "intersection.h"
+#include "intersectioninterface.h"
 
-class ServerApplication : public QCoreApplication
+class ServerApplication : public QApplication
 {
     Q_OBJECT
 
 private:
     TCommunicator* comm;
     Intersection* intersection;
+    IntersectionInterface* interface;
 
     QString processRequest(int messageType, const QStringList& params);
-    void sendStatusUpdate();
 
 public:
     ServerApplication(int argc, char* argv[]);

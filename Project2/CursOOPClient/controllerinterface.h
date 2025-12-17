@@ -1,5 +1,5 @@
-#ifndef INTERFACE_H
-#define INTERFACE_H
+#ifndef CONTROLLERINTERFACE_H
+#define CONTROLLERINTERFACE_H
 
 #include <QWidget>
 #include <QPushButton>
@@ -10,68 +10,49 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QGridLayout>
-#include <QFrame>
+#include <QTabWidget>
 #include "../communicator/common.h"
 
-// Виджет светофора (3 лампы в вертикальном прямоугольнике)
-class TrafficLightWidget : public QFrame
+class ControllerInterface : public QWidget
 {
     Q_OBJECT
 
 private:
-    QLabel* redLight;
-    QLabel* yellowLight;
-    QLabel* greenLight;
-    QLabel* titleLabel;
-
-public:
-    TrafficLightWidget(const QString& title, QWidget* parent = nullptr);
-    void setState(LightState state);
-};
-
-class TInterface : public QWidget
-{
-    Q_OBJECT
-
-private:
-    // Кнопки управления пультом
     QPushButton* btnTurnOn;
     QPushButton* btnTurnOff;
 
-    // Кнопки режимов
     QPushButton* btnAutonomous;
     QPushButton* btnManual;
     QPushButton* btnAuto;
 
-    // Элементы ручного управления
+    // Ручное управление — по направлениям
     QGroupBox* manualGroup;
     QComboBox* comboNS;
     QComboBox* comboEW;
     QPushButton* btnApplyManual;
 
-    // Элементы настройки времени
+    // Ручное управление — индивидуально
+    QComboBox* comboNorth;
+    QComboBox* comboSouth;
+    QComboBox* comboEast;
+    QComboBox* comboWest;
+    QPushButton* btnApplyIndividual;
+
     QGroupBox* timingsGroup;
     QSpinBox* spinGreen;
     QSpinBox* spinYellow;
     QPushButton* btnApplyTimings;
 
-    // Индикаторы состояния
     QLabel* lblPanelState;
 
-    // Виджеты светофоров
-    TrafficLightWidget* lightNorth;
-    TrafficLightWidget* lightSouth;
-    TrafficLightWidget* lightEast;
-    TrafficLightWidget* lightWest;
-
-    // Текущее состояние пульта
     int currentPanelState;
 
     void setupUI();
     void updateControlsState();
+    void setupLightCombo(QComboBox* combo);
 
 public:
-    TInterface(QWidget* parent = nullptr);
+    ControllerInterface(QWidget* parent = nullptr);
     void updateStatus(int panelState, const QString& status);
     void showError(const QString& error);
 
@@ -85,7 +66,8 @@ private slots:
     void onSetManual();
     void onSetAuto();
     void onApplyManual();
+    void onApplyIndividual();
     void onApplyTimings();
 };
 
-#endif // INTERFACE_H
+#endif // CONTROLLERINTERFACE_H

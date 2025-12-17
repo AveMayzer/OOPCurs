@@ -19,29 +19,32 @@ Intersection::Intersection(QObject* parent)
     connect(blinkTimer, SIGNAL(timeout()), this, SLOT(onBlinkTimerTick()));
 }
 
-Intersection::~Intersection() {
+Intersection::~Intersection()
+{
     autoTimer->stop();
     blinkTimer->stop();
 }
 
-void Intersection::setDirectionState(Direction dir, LightState state) {
+void Intersection::setDirectionState(Direction dir, LightState state)
+{
     if (dir == DIRECTION_NORTH_SOUTH) {
-        lights[0] = state; // Север
-        lights[1] = state; // Юг
+        lights[0] = state;
+        lights[1] = state;
     } else {
-        lights[2] = state; // Восток
-        lights[3] = state; // Запад
+        lights[2] = state;
+        lights[3] = state;
     }
 }
 
-void Intersection::turnOn() {
+void Intersection::turnOn()
+{
     if (panelState == PANEL_OFF) {
-        panelState = PANEL_AUTONOMOUS;
         setAutonomous();
     }
 }
 
-void Intersection::turnOff() {
+void Intersection::turnOff()
+{
     autoTimer->stop();
     blinkTimer->stop();
     panelState = PANEL_OFF;
@@ -53,7 +56,8 @@ void Intersection::turnOff() {
     emit statusChanged(getStatusString());
 }
 
-void Intersection::setAutonomous() {
+void Intersection::setAutonomous()
+{
     autoTimer->stop();
     blinkTimer->stop();
 
@@ -61,14 +65,15 @@ void Intersection::setAutonomous() {
     blinkState = true;
 
     for (int i = 0; i < 4; i++) {
-        lights[i] = LIGHT_YELLOW_BLINK;
+        lights[i] = LIGHT_YELLOW;
     }
 
     blinkTimer->start(500);
     emit statusChanged(getStatusString());
 }
 
-void Intersection::setManual() {
+void Intersection::setManual()
+{
     autoTimer->stop();
     blinkTimer->stop();
 
@@ -80,7 +85,8 @@ void Intersection::setManual() {
     emit statusChanged(getStatusString());
 }
 
-void Intersection::setAutomatic() {
+void Intersection::setAutomatic()
+{
     blinkTimer->stop();
 
     panelState = PANEL_AUTO;
@@ -93,7 +99,8 @@ void Intersection::setAutomatic() {
     emit statusChanged(getStatusString());
 }
 
-void Intersection::setManualState(LightState nsState, LightState ewState) {
+void Intersection::setManualState(LightState nsState, LightState ewState)
+{
     if (panelState != PANEL_MANUAL) return;
 
     setDirectionState(DIRECTION_NORTH_SOUTH, nsState);
@@ -102,38 +109,40 @@ void Intersection::setManualState(LightState nsState, LightState ewState) {
     emit statusChanged(getStatusString());
 }
 
-void Intersection::setTimings(int green, int yellow) {
+void Intersection::setTimings(int green, int yellow)
+{
     greenTime = green;
     yellowTime = yellow;
 }
 
-void Intersection::onAutoTimerTick() {
+void Intersection::onAutoTimerTick()
+{
     currentPhase = (currentPhase + 1) % 6;
 
     switch (currentPhase) {
-    case 0: // Зеленый NS, Красный EW
+    case 0:
         setDirectionState(DIRECTION_NORTH_SOUTH, LIGHT_GREEN);
         setDirectionState(DIRECTION_EAST_WEST, LIGHT_RED);
         autoTimer->setInterval(greenTime);
         break;
-    case 1: // Желтый NS, Красный EW
+    case 1:
         setDirectionState(DIRECTION_NORTH_SOUTH, LIGHT_YELLOW);
         autoTimer->setInterval(yellowTime);
         break;
-    case 2: // Красный NS, Желтый EW (подготовка)
+    case 2:
         setDirectionState(DIRECTION_NORTH_SOUTH, LIGHT_RED);
         setDirectionState(DIRECTION_EAST_WEST, LIGHT_YELLOW);
         autoTimer->setInterval(yellowTime);
         break;
-    case 3: // Красный NS, Зеленый EW
+    case 3:
         setDirectionState(DIRECTION_EAST_WEST, LIGHT_GREEN);
         autoTimer->setInterval(greenTime);
         break;
-    case 4: // Красный NS, Желтый EW
+    case 4:
         setDirectionState(DIRECTION_EAST_WEST, LIGHT_YELLOW);
         autoTimer->setInterval(yellowTime);
         break;
-    case 5: // Желтый NS (подготовка), Красный EW
+    case 5:
         setDirectionState(DIRECTION_NORTH_SOUTH, LIGHT_YELLOW);
         setDirectionState(DIRECTION_EAST_WEST, LIGHT_RED);
         autoTimer->setInterval(yellowTime);
@@ -143,7 +152,8 @@ void Intersection::onAutoTimerTick() {
     emit statusChanged(getStatusString());
 }
 
-void Intersection::onBlinkTimerTick() {
+void Intersection::onBlinkTimerTick()
+{
     blinkState = !blinkState;
     LightState state = blinkState ? LIGHT_YELLOW : LIGHT_OFF;
 
@@ -154,11 +164,13 @@ void Intersection::onBlinkTimerTick() {
     emit statusChanged(getStatusString());
 }
 
-PanelState Intersection::getPanelState() const {
+PanelState Intersection::getPanelState() const
+{
     return panelState;
 }
 
-QString Intersection::getStatusString() const {
+QString Intersection::getStatusString() const
+{
     static const char* positions[] = {"Северный", "Южный", "Восточный", "Западный"};
     static const char* states[] = {"Выключен", "Красный", "Желтый", "Зеленый", "Желтый"};
 
@@ -170,4 +182,15 @@ QString Intersection::getStatusString() const {
                       .arg(states[lights[i]]);
     }
     return status;
+}
+void Intersection::setIndividualState(LightState north, LightState south, LightState east, LightState west)
+{
+    if (panelState != PANEL_MANUAL) return;
+
+    lights[0] = north;
+    lights[1] = south;
+    lights[2] = east;
+    lights[3] = west;
+
+    emit statusChanged(getStatusString());
 }

@@ -2,7 +2,7 @@
 #define CLIENT_APPLICATION_H
 
 #include <QApplication>
-#include "interface.h"
+#include "controllerinterface.h"
 #include "../communicator/communicator.h"
 #include "../communicator/common.h"
 
@@ -12,7 +12,7 @@ class ClientApplication : public QApplication
 
 private:
     TCommunicator* comm;
-    TInterface* interface;
+    ControllerInterface* interface;
 
 public:
     ClientApplication(int argc, char** argv);

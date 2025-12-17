@@ -11,11 +11,8 @@ class Intersection : public QObject
 
 private:
     PanelState panelState;
+    LightState lights[4];  // 0-Север, 1-Юг, 2-Восток, 3-Запад
 
-    // Состояния светофоров (4 штуки: 0-Север, 1-Юг, 2-Восток, 3-Запад)
-    LightState lights[4];
-
-    // Временные параметры (в миллисекундах)
     int greenTime;
     int yellowTime;
 
@@ -36,6 +33,7 @@ public:
     void setManual();
     void setAutomatic();
     void setManualState(LightState nsState, LightState ewState);
+    void setIndividualState(LightState north, LightState south, LightState east, LightState west);
     void setTimings(int green, int yellow);
 
     PanelState getPanelState() const;

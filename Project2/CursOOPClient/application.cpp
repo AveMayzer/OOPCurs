@@ -7,7 +7,7 @@ ClientApplication::ClientApplication(int argc, char* argv[])
                         QHostAddress("127.0.0.1"), 10001 };
     comm = new TCommunicator(pars, this);
 
-    interface = new TInterface();
+    interface = new ControllerInterface();
     interface->show();
 
     connect(comm, SIGNAL(recieved(QByteArray)), this, SLOT(fromCommunicator(QByteArray)));
