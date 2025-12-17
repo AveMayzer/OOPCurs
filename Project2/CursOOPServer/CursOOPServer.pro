@@ -13,15 +13,19 @@ SOURCES += \
     ../communicator/communicator.cpp \
     application.cpp \
     intersection.cpp \
-    intersectioninterface.cpp \
-    main.cpp
+    main.cpp \
+    mainwindow.cpp \
+    parameterswindow.cpp \
+    statusdisplaywindow.cpp
 
 HEADERS += \
     ../communicator/common.h \
     ../communicator/communicator.h \
     application.h \
     intersection.h \
-    intersectioninterface.h
+    mainwindow.h \
+    parameterswindow.h \
+    statusdisplaywindow.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

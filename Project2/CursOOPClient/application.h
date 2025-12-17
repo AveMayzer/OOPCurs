@@ -2,7 +2,7 @@
 #define CLIENT_APPLICATION_H
 
 #include <QApplication>
-#include "controllerinterface.h"
+#include "mainwindow.h"
 #include "../communicator/communicator.h"
 #include "../communicator/common.h"
 
@@ -12,10 +12,11 @@ class ClientApplication : public QApplication
 
 private:
     TCommunicator* comm;
-    ControllerInterface* interface;
+    MainWindow* mainWindow;
 
 public:
     ClientApplication(int argc, char** argv);
+    ~ClientApplication();
 
 public slots:
     void fromCommunicator(QByteArray msg);

@@ -9,8 +9,8 @@ ServerApplication::ServerApplication(int argc, char* argv[])
 
     intersection = new Intersection(this);
 
-    interface = new IntersectionInterface();
-    interface->show();
+    mainWindow = new MainWindow();
+    mainWindow->show();
 
     connect(comm, SIGNAL(recieved(QByteArray)), this, SLOT(onMessageReceived(QByteArray)));
     connect(intersection, SIGNAL(statusChanged(QString)), this, SLOT(onIntersectionStatusChanged(QString)));
@@ -19,7 +19,7 @@ ServerApplication::ServerApplication(int argc, char* argv[])
 ServerApplication::~ServerApplication()
 {
     delete intersection;
-    delete interface;
+    delete mainWindow;
 }
 
 void ServerApplication::onMessageReceived(QByteArray msg)
@@ -115,6 +115,7 @@ QString ServerApplication::processRequest(int messageType, const QStringList& pa
             int greenTime = params[0].toInt();
             int yellowTime = params[1].toInt();
             intersection->setTimings(greenTime, yellowTime);
+            mainWindow->updateTimings(greenTime, yellowTime);
             response << QString::number(MSG_PANEL_STATE_CHANGED)
                      << QString::number(intersection->getPanelState())
                      << QString("Время: зеленый=%1мс, желтый=%2мс")
@@ -127,6 +128,7 @@ QString ServerApplication::processRequest(int messageType, const QStringList& pa
                  << QString::number(intersection->getPanelState())
                  << intersection->getStatusString();
         break;
+
     case MSG_MANUAL_SET_INDIVIDUAL:
         if (intersection->getPanelState() != PANEL_MANUAL) {
             response << QString::number(MSG_ERROR) << "Не в режиме ручного управления";
@@ -153,7 +155,7 @@ QString ServerApplication::processRequest(int messageType, const QStringList& pa
 
 void ServerApplication::onIntersectionStatusChanged(QString status)
 {
-    interface->updateStatus(intersection->getPanelState(), status);
+    mainWindow->updateStatus(intersection->getPanelState(), status);
 
     QString response;
     response << QString::number(MSG_STATUS_UPDATE)

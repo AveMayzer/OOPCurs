@@ -5,7 +5,7 @@
 #include "../communicator/communicator.h"
 #include "../communicator/common.h"
 #include "intersection.h"
-#include "intersectioninterface.h"
+#include "mainwindow.h"
 
 class ServerApplication : public QApplication
 {
@@ -14,7 +14,7 @@ class ServerApplication : public QApplication
 private:
     TCommunicator* comm;
     Intersection* intersection;
-    IntersectionInterface* interface;
+    MainWindow* mainWindow;
 
     QString processRequest(int messageType, const QStringList& params);
 

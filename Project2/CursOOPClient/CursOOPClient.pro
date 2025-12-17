@@ -12,14 +12,20 @@ SOURCES += \
     ../communicator/common.cpp \
     ../communicator/communicator.cpp \
     application.cpp \
-    controllerinterface.cpp \
-    main.cpp
+    eventcontrolwindow.cpp \
+    main.cpp \
+    mainwindow.cpp \
+    parameterswindow.cpp \
+    statusdisplaywindow.cpp
 
 HEADERS += \
     ../communicator/common.h \
     ../communicator/communicator.h \
     application.h \
-    controllerinterface.h
+    eventcontrolwindow.h \
+    mainwindow.h \
+    parameterswindow.h \
+    statusdisplaywindow.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
