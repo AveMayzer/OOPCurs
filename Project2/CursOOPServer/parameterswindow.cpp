@@ -6,6 +6,10 @@ ParametersWindow::ParametersWindow(QWidget* parent)
     setupUI();
 }
 
+ParametersWindow::~ParametersWindow()
+{
+}
+
 void ParametersWindow::setupUI()
 {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
@@ -28,6 +32,10 @@ void ParametersWindow::setupUI()
     lblYellowTime->setStyleSheet("font-size: 14px;");
     timingsLayout->addWidget(lblYellowTime);
 
+    lblRedTime = new QLabel("Время красного сигнала: 5000 мс");
+    lblRedTime->setStyleSheet("font-size: 14px;");
+    timingsLayout->addWidget(lblRedTime);
+
     QLabel* lblHint = new QLabel("Параметры управляются с пульта");
     lblHint->setStyleSheet("color: gray; font-style: italic;");
 
@@ -37,10 +45,11 @@ void ParametersWindow::setupUI()
     mainLayout->addStretch();
 }
 
-void ParametersWindow::updateTimings(int greenTime, int yellowTime)
+void ParametersWindow::updateTimings(int greenTime, int yellowTime, int redTime)
 {
     lblGreenTime->setText(QString("Время зелёного сигнала: %1 мс").arg(greenTime));
     lblYellowTime->setText(QString("Время жёлтого сигнала: %1 мс").arg(yellowTime));
+    lblRedTime->setText(QString("Время красного сигнала: %1 мс").arg(redTime));
 }
 
 void ParametersWindow::updateMode(int panelState)

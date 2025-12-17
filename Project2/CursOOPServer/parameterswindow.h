@@ -14,6 +14,7 @@ class ParametersWindow : public QWidget
 private:
     QLabel* lblGreenTime;
     QLabel* lblYellowTime;
+    QLabel* lblRedTime;
     QLabel* lblMode;
 
     void setupUI();
@@ -21,7 +22,7 @@ private:
 public:
     ParametersWindow(QWidget* parent = nullptr);
     ~ParametersWindow();
-    void updateTimings(int greenTime, int yellowTime);
+    void updateTimings(int greenTime, int yellowTime, int redTime);
     void updateMode(int panelState);
 };
 

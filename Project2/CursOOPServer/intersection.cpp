@@ -5,6 +5,7 @@ Intersection::Intersection(QObject* parent)
     panelState(PANEL_OFF),
     greenTime(5000),
     yellowTime(2000),
+    redTime(5000),
     currentPhase(0),
     blinkState(false)
 {
@@ -109,10 +110,11 @@ void Intersection::setManualState(LightState nsState, LightState ewState)
     emit statusChanged(getStatusString());
 }
 
-void Intersection::setTimings(int green, int yellow)
+void Intersection::setTimings(int green, int yellow, int red)
 {
     greenTime = green;
     yellowTime = yellow;
+    redTime = red;
 }
 
 void Intersection::onAutoTimerTick()
@@ -121,28 +123,34 @@ void Intersection::onAutoTimerTick()
 
     switch (currentPhase) {
     case 0:
+        // Север-Юг: Зелёный, Восток-Запад: Красный
         setDirectionState(DIRECTION_NORTH_SOUTH, LIGHT_GREEN);
         setDirectionState(DIRECTION_EAST_WEST, LIGHT_RED);
-        autoTimer->setInterval(greenTime);
+        autoTimer->setInterval(redTime);  // Время красного для Восток-Запад
         break;
     case 1:
+        // Север-Юг: Жёлтый, Восток-Запад: Красный
         setDirectionState(DIRECTION_NORTH_SOUTH, LIGHT_YELLOW);
         autoTimer->setInterval(yellowTime);
         break;
     case 2:
+        // Север-Юг: Красный, Восток-Запад: Жёлтый (переход к зелёному)
         setDirectionState(DIRECTION_NORTH_SOUTH, LIGHT_RED);
         setDirectionState(DIRECTION_EAST_WEST, LIGHT_YELLOW);
         autoTimer->setInterval(yellowTime);
         break;
     case 3:
+        // Север-Юг: Красный, Восток-Запад: Зелёный
         setDirectionState(DIRECTION_EAST_WEST, LIGHT_GREEN);
-        autoTimer->setInterval(greenTime);
+        autoTimer->setInterval(redTime);  // Время красного для Север-Юг
         break;
     case 4:
+        // Север-Юг: Красный, Восток-Запад: Жёлтый
         setDirectionState(DIRECTION_EAST_WEST, LIGHT_YELLOW);
         autoTimer->setInterval(yellowTime);
         break;
     case 5:
+        // Север-Юг: Жёлтый (переход к зелёному), Восток-Запад: Красный
         setDirectionState(DIRECTION_NORTH_SOUTH, LIGHT_YELLOW);
         setDirectionState(DIRECTION_EAST_WEST, LIGHT_RED);
         autoTimer->setInterval(yellowTime);
@@ -183,6 +191,7 @@ QString Intersection::getStatusString() const
     }
     return status;
 }
+
 void Intersection::setIndividualState(LightState north, LightState south, LightState east, LightState west)
 {
     if (panelState != PANEL_MANUAL) return;

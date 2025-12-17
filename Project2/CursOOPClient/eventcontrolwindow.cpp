@@ -9,9 +9,7 @@ EventControlWindow::EventControlWindow(QWidget* parent)
     updateControlsState();
 }
 
-EventControlWindow::~EventControlWindow(){
 
-}
 
 void EventControlWindow::setupLightCombo(QComboBox* combo)
 {
@@ -24,7 +22,6 @@ void EventControlWindow::setupUI()
 {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
-    // === Группа управления пультом ===
     QGroupBox* panelGroup = new QGroupBox("Управление пультом");
     QHBoxLayout* panelLayout = new QHBoxLayout(panelGroup);
 
@@ -41,7 +38,6 @@ void EventControlWindow::setupUI()
     connect(btnTurnOn, SIGNAL(clicked()), this, SLOT(onTurnOn()));
     connect(btnTurnOff, SIGNAL(clicked()), this, SLOT(onTurnOff()));
 
-    // === Группа выбора режима ===
     QGroupBox* modeGroup = new QGroupBox("Режим работы");
     QHBoxLayout* modeLayout = new QHBoxLayout(modeGroup);
 
@@ -57,13 +53,11 @@ void EventControlWindow::setupUI()
     connect(btnManual, SIGNAL(clicked()), this, SLOT(onSetManual()));
     connect(btnAuto, SIGNAL(clicked()), this, SLOT(onSetAuto()));
 
-    // === Группа ручного управления ===
     manualGroup = new QGroupBox("Ручное управление светофорами");
     QVBoxLayout* manualMainLayout = new QVBoxLayout(manualGroup);
 
     QTabWidget* manualTabs = new QTabWidget();
 
-    // Вкладка "По направлениям"
     QWidget* tabDirections = new QWidget();
     QGridLayout* dirLayout = new QGridLayout(tabDirections);
 
@@ -81,7 +75,6 @@ void EventControlWindow::setupUI()
     dirLayout->addWidget(btnApplyManual, 2, 0, 1, 2);
     connect(btnApplyManual, SIGNAL(clicked()), this, SLOT(onApplyManual()));
 
-    // Вкладка "Индивидуально"
     QWidget* tabIndividual = new QWidget();
     QGridLayout* indLayout = new QGridLayout(tabIndividual);
 
@@ -114,7 +107,6 @@ void EventControlWindow::setupUI()
 
     manualMainLayout->addWidget(manualTabs);
 
-    // Собираем layout
     mainLayout->addWidget(panelGroup);
     mainLayout->addWidget(modeGroup);
     mainLayout->addWidget(manualGroup);

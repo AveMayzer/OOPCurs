@@ -18,6 +18,7 @@ private:
     QGroupBox* timingsGroup;
     QSpinBox* spinGreen;
     QSpinBox* spinYellow;
+    QSpinBox* spinRed;
     QPushButton* btnApplyTimings;
     QLabel* lblCurrentParams;
 

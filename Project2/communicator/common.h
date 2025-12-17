@@ -9,7 +9,6 @@ const QChar separator(';');
 
 QString& operator<< (QString& m, const QString& s);
 
-// Состояния пульта управления
 enum PanelState {
     PANEL_OFF = 0,
     PANEL_AUTONOMOUS = 1,
@@ -17,7 +16,6 @@ enum PanelState {
     PANEL_AUTO = 3
 };
 
-// Состояния светофора
 enum LightState {
     LIGHT_OFF = 0,
     LIGHT_RED = 1,
@@ -26,15 +24,14 @@ enum LightState {
     LIGHT_YELLOW_BLINK = 4
 };
 
-// Типы сообщений
 enum Messages {
     MSG_TURN_ON_PANEL,
     MSG_TURN_OFF_PANEL,
     MSG_SET_AUTONOMOUS,
     MSG_SET_MANUAL,
     MSG_SET_AUTO,
-    MSG_MANUAL_SET_STATE,           // По направлениям (Север-Юг, Восток-Запад)
-    MSG_MANUAL_SET_INDIVIDUAL,      // По каждому светофору отдельно
+    MSG_MANUAL_SET_STATE,
+    MSG_MANUAL_SET_INDIVIDUAL,
     MSG_SET_TIMINGS,
     MSG_GET_STATUS,
 
@@ -43,7 +40,6 @@ enum Messages {
     MSG_ERROR
 };
 
-// Направления движения
 enum Direction {
     DIRECTION_NORTH_SOUTH = 0,
     DIRECTION_EAST_WEST = 1

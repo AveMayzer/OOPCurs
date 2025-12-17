@@ -5,7 +5,6 @@
 #include <QTabWidget>
 #include "statusdisplaywindow.h"
 #include "parameterswindow.h"
-#include "../communicator/common.h"
 
 class MainWindow : public QMainWindow
 {
@@ -21,8 +20,9 @@ private:
 public:
     MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
+
     void updateStatus(int panelState, const QString& status);
-    void updateTimings(int greenTime, int yellowTime);
+    void updateTimings(int greenTime, int yellowTime, int redTime);
 };
 
 #endif // MAINWINDOW_H

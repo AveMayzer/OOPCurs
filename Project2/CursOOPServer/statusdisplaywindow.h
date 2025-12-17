@@ -22,6 +22,7 @@ private:
 public:
     TrafficLightWidget(const QString& title, QWidget* parent = nullptr);
     void setState(LightState state);
+    ~TrafficLightWidget();
 };
 
 class StatusDisplayWindow : public QWidget

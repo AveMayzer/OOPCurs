@@ -109,17 +109,18 @@ QString ServerApplication::processRequest(int messageType, const QStringList& pa
         break;
 
     case MSG_SET_TIMINGS:
-        if (params.size() < 2) {
+        if (params.size() < 3) {
             response << QString::number(MSG_ERROR) << "Недостаточно параметров";
         } else {
             int greenTime = params[0].toInt();
             int yellowTime = params[1].toInt();
-            intersection->setTimings(greenTime, yellowTime);
-            mainWindow->updateTimings(greenTime, yellowTime);
+            int redTime = params[2].toInt();
+            intersection->setTimings(greenTime, yellowTime, redTime);
+            mainWindow->updateTimings(greenTime, yellowTime, redTime);
             response << QString::number(MSG_PANEL_STATE_CHANGED)
                      << QString::number(intersection->getPanelState())
-                     << QString("Время: зеленый=%1мс, желтый=%2мс")
-                            .arg(greenTime).arg(yellowTime);
+                     << QString("Время: зеленый=%1мс, желтый=%2мс, красный=%3мс")
+                            .arg(greenTime).arg(yellowTime).arg(redTime);
         }
         break;
 

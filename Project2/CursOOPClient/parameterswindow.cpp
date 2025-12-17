@@ -15,14 +15,12 @@ void ParametersWindow::setupUI()
 {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
-    // Информация о текущих параметрах
     QGroupBox* infoGroup = new QGroupBox("Текущие параметры");
     QVBoxLayout* infoLayout = new QVBoxLayout(infoGroup);
-    lblCurrentParams = new QLabel("Зеленый: 5000 мс\nЖелтый: 2000 мс");
+    lblCurrentParams = new QLabel("Зеленый: 5000 мс\nЖелтый: 2000 мс\nКрасный: 5000 мс");
     lblCurrentParams->setStyleSheet("font-size: 14px;");
     infoLayout->addWidget(lblCurrentParams);
 
-    // Настройка параметров
     timingsGroup = new QGroupBox("Настройка времени (мс)");
     QGridLayout* timingsLayout = new QGridLayout(timingsGroup);
 
@@ -42,12 +40,19 @@ void ParametersWindow::setupUI()
     spinYellow->setSuffix(" мс");
     timingsLayout->addWidget(spinYellow, 1, 1);
 
+    timingsLayout->addWidget(new QLabel("Время красного сигнала:"), 2, 0);
+    spinRed = new QSpinBox();
+    spinRed->setRange(1000, 30000);
+    spinRed->setValue(5000);
+    spinRed->setSingleStep(500);
+    spinRed->setSuffix(" мс");
+    timingsLayout->addWidget(spinRed, 2, 1);
+
     btnApplyTimings = new QPushButton("Применить параметры");
-    timingsLayout->addWidget(btnApplyTimings, 2, 0, 1, 2);
+    timingsLayout->addWidget(btnApplyTimings, 3, 0, 1, 2);
 
     connect(btnApplyTimings, SIGNAL(clicked()), this, SLOT(onApplyTimings()));
 
-    // Подсказка
     QLabel* lblHint = new QLabel("Параметры времени доступны только в автоматическом режиме");
     lblHint->setStyleSheet("color: gray; font-style: italic;");
     lblHint->setWordWrap(true);
@@ -75,11 +80,12 @@ void ParametersWindow::onApplyTimings()
     QString msg;
     msg << QString::number(MSG_SET_TIMINGS)
         << QString::number(spinGreen->value())
-        << QString::number(spinYellow->value());
+        << QString::number(spinYellow->value())
+        << QString::number(spinRed->value());
     emit request(msg);
 
-    // Обновляем отображение текущих параметров
-    lblCurrentParams->setText(QString("Зеленый: %1 мс\nЖелтый: %2 мс")
+    lblCurrentParams->setText(QString("Зеленый: %1 мс\nЖелтый: %2 мс\nКрасный: %3 мс")
                                   .arg(spinGreen->value())
-                                  .arg(spinYellow->value()));
+                                  .arg(spinYellow->value())
+                                  .arg(spinRed->value()));
 }

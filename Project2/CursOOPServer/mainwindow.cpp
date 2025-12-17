@@ -36,7 +36,7 @@ void MainWindow::updateStatus(int panelState, const QString& status)
     parametersWindow->updateMode(panelState);
 }
 
-void MainWindow::updateTimings(int greenTime, int yellowTime)
+void MainWindow::updateTimings(int greenTime, int yellowTime, int redTime)
 {
-    parametersWindow->updateTimings(greenTime, yellowTime);
+    parametersWindow->updateTimings(greenTime, yellowTime, redTime);
 }

@@ -11,10 +11,11 @@ class Intersection : public QObject
 
 private:
     PanelState panelState;
-    LightState lights[4];  // 0-Север, 1-Юг, 2-Восток, 3-Запад
+    LightState lights[4];
 
     int greenTime;
     int yellowTime;
+    int redTime;
 
     QTimer* autoTimer;
     QTimer* blinkTimer;
@@ -34,7 +35,7 @@ public:
     void setAutomatic();
     void setManualState(LightState nsState, LightState ewState);
     void setIndividualState(LightState north, LightState south, LightState east, LightState west);
-    void setTimings(int green, int yellow);
+    void setTimings(int green, int yellow, int red);
 
     PanelState getPanelState() const;
     QString getStatusString() const;
